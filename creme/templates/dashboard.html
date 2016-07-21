@@ -1,0 +1,257 @@
+{% extends "header.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block body %}
+
+<style>
+
+/* Profile container */
+.profile {
+  margin: 20px 0;
+}
+
+/* Profile sidebar */
+.profile-sidebar {
+  padding: 20px 0 10px 0;
+  background: #fff;
+}
+
+.profile-userpic img {
+  float: none;
+  margin: 0 auto;
+  width: 50%;
+  height: 50%;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  border-radius: 50% !important;
+}
+
+.profile-usertitle {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.profile-usertitle-name {
+  color: #5a7391;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.profile-usertitle-job {
+  text-transform: uppercase;
+  color: #5b9bd1;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.profile-userbuttons {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.profile-userbuttons .btn {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 15px;
+  margin-right: 5px;
+}
+
+.profile-userbuttons .btn:last-child {
+  margin-right: 0px;
+}
+    
+.profile-usermenu {
+  margin-top: 30px;
+}
+
+.profile-usermenu ul li {
+  border-bottom: 1px solid #f0f4f7;
+}
+
+.profile-usermenu ul li:last-child {
+  border-bottom: none;
+}
+
+.profile-usermenu ul li a {
+  color: #93a3b5;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.profile-usermenu ul li a i {
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.profile-usermenu ul li a:hover {
+  background-color: #fafcfd;
+  color: #5b9bd1;
+}
+
+.profile-usermenu ul li.active {
+  border-bottom: none;
+}
+
+.profile-usermenu ul li.active a {
+  color: #5b9bd1;
+  background-color: #f6f9fb;
+  border-left: 2px solid #5b9bd1;
+  margin-left: -2px;
+}
+
+/* Profile Content */
+.profile-content {
+  padding: 20px;
+  background: #fff;
+  min-height: 504px;
+}
+
+.pagination-page-info {
+    padding: .6em;
+    padding-left: 0;
+    width: 40em;
+    margin: .5em;
+    margin-left: 0;
+    font-size: 12px;
+    
+}
+    .thumbnail {
+       border:none; 
+    }
+.pagination-page-info b {
+    color: black;
+ 
+    padding-left: 2px;
+   
+    font-size: 150%;
+}
+
+      .thumbnail.with-caption {
+    display: inline-block;
+
+  }
+  .thumbnail.with-caption p {
+    margin: 0;
+    padding-top: 0.5em;
+  }
+  .thumbnail.with-caption small:before {
+
+  }
+  .thumbnail.with-caption small {
+    width: 100%;
+    text-align: right;
+    display: inline-block;
+    color: #999;
+  }
+</style>
+
+
+
+<div style="margin-top:70px;" class="container">
+
+     {% with messages = get_flashed_messages() %}
+{% if messages %}
+          {% for message in messages %}
+    
+    <div class="alert alert-info">{{ message }} 
+<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          
+          </div>
+          {% endfor %}
+{% endif %}
+{% endwith %}
+
+   
+    <div class="container">
+      <div class="row profile">
+		<div class="col-md-3">
+			<div class="profile-sidebar">
+				<!-- SIDEBAR USERPIC -->
+                <center>
+				<div class="profile-userpic">
+                 <div class="thumbnail with-caption">
+					<img style="width:100px;height:100px;" src="{{ url_for('static', filename='profiles/' + currUser.profile_picture) }}" class="img-responsive" alt="">
+                  <p><center><a href="/profile/change/"><btn class="btn btn-primary btn-sm">Change</btn></a></center></p>
+                    </div>
+                    
+				</div>
+                    </center>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class="profile-usertitle">
+					<div class="profile-usertitle-name">
+						{{ currUser.username }}
+					</div>
+					<div class="profile-usertitle-job">
+						Joined {{ currUser.date_joined.strftime('%m/%d/%Y') }}
+                       
+					</div>
+				</div>
+				<!-- END SIDEBAR USER TITLE -->
+				<!-- SIDEBAR BUTTONS -->
+				<div class="profile-userbuttons">
+                    <a href="/settings"><button type="button" class="btn btn-primary btn-sm"> Settings</button></a>
+                   {% if currUser.biz_owner == 1 %}
+                    <a href="/shop/new/"><button type="button" class="btn btn-info btn-sm">Add Shop</button></a>
+                  
+                 
+                    {% if shopsOwned %}
+                    <p> <a href="/manage/mine/"><button style="margin-top:5px;" type="button" class="btn btn-info btn-sm">Manage</button></a></p>
+                    {% endif %}
+                    {% endif %}
+
+				</div>
+				<!-- END SIDEBAR BUTTONS -->
+				<!-- SIDEBAR MENU -->
+				<div class="profile-usermenu">
+					<ul class="nav">
+						
+                        
+                        
+					</ul>
+				</div>
+				<!-- END MENU -->
+			</div>
+		</div>
+		<div class="col-md-9">
+            <div class="profile-content">
+                <h4>Check Ins</h4>
+			   {% if not checkins.items %}
+                <div class="alert alert-danger">You haven't checked in at any coffee venues yet. When you start visiting coffee shops, you can check in there!</div>
+                {% else %}
+             
+                <div class="list-group">
+                    {% for checkin in checkins.items %}
+    <a class="list-group-item">
+      <h4 class="list-group-item-heading">Checked in to {{ checkin.brand }} on {{ checkin.address }}</h4>
+      <p class="list-group-item-text">On {{ checkin.date_checked.strftime('%m/%d/%Y at %l:%M %p') }}</p>
+    </a>
+                    {% endfor %}
+                 
+  {% endif %}
+                    
+                    
+                    <ul class="pagination">
+ {% if checkins.has_prev %} <li><a href="{{ url_for('dashboard', page=checkins.prev_num) }}">Previous</a></li>
+                        {% else %}<li class="disabled"><a href="{{ url_for('dashboard', page=checkins.prev_num) }}">Previous</a></li> {% endif %}
+ {% if checkins.has_next %} <li><a href="{{ url_for('dashboard', page=checkins.next_num) }}">Next</a></li> {% else %}<li class="disabled"><a href="{{ url_for('dashboard', page=checkins.prev_num) }}">Next</a></li> 
+                        {% endif %}
+  
+</ul>
+  </div>
+                
+                
+                
+                
+            </div>
+		</div>
+	</div>
+    
+</div>
+
+
+{% endblock %}

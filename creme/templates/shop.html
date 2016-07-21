@@ -1,0 +1,171 @@
+{% extends "header.html" %}
+
+{% block title %} {{ shop.brand }} @ {{ shop.address }} {% endblock %}
+
+{% block body %}
+
+ 
+
+
+
+<style>
+
+    #map {
+        width:100%;
+       height:200px;
+         position: fixed;
+        right: 0; left: 0;
+        margin-top:50px;
+    }
+    
+    .panel-default {
+       margin-top:320px;
+        
+        
+    }
+    
+    #wrap {
+        min-width:600px;
+    }
+    
+    
+</style>
+
+
+
+
+<div id="map"></div>
+
+
+
+     {% with messages = get_flashed_messages() %}
+{% if messages %}
+          {% for message in messages %}
+    
+    <div class="alert alert-info">{{ message }} 
+<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          
+          </div>
+          {% endfor %}
+{% endif %}
+{% endwith %}
+<div class="container">
+<div class="panel panel-default">
+    <div class="panel-body">
+    
+    
+    <h2>{{ shop.brand }}  <small> {{ shop.address }}</small></h2>
+    {% if session.logged_in %}
+        
+        <p> <a href="/checkin/{{ shop.id }}"><btn class="btn btn-primary">Check in</btn></a> </p>
+    {% endif %}
+        
+        
+    <h3>Menu</h3>
+    
+<form class="form-inline" role="form" method="POST" action="/shop/{{ shop.id }}">
+  <div class="form-group">
+      
+      <select class="form-control" name="type" id="sel1">
+        <option selected="selected">Coffee Type</option>
+          {% for item in items %}
+        <option>{{ item }}</option>
+      {% endfor %}
+      </select>
+    </div>
+   <div class="form-group">
+      
+      <select class="form-control" name="size" id="sel2">
+          <option selected="selected">Size</option>
+          {% for size in sizes %}
+        <option>{{ size }}</option>
+       {% endfor %}
+      </select>
+    </div>
+<div class="form-group">
+    <input type="submit" class="btn btn-primary" value="Go">
+    </div>
+  
+</form>
+        
+    
+    {% if ourItem == None %}
+        
+        {% else %}
+        
+       <br> 
+        
+        <table class="table">
+  <thead class="thead-default">
+    <tr>
+      <th>Item</th>
+      <th>Size</th>
+      <th>Calories</th>
+      <th>Protein</th>
+        <th>Fat</th>
+    </tr>
+  </thead>
+  <tbody>
+ 
+    <tr>
+      <th scope="row">{{ ourItem.name }}</th>
+      <td>{{ ourItem.size }}</td>
+      <td>{{ ourItem.calories }}</td>
+      <td>{{ ourItem.protein }}g</td>
+        <td>{{ ourItem.fat }}g</td>
+    </tr>
+    
+  </tbody>
+</table>
+        
+        
+        {% endif %}
+        
+        
+        
+        
+     
+    </div>
+    </div>
+    
+            
+             
+
+
+            
+            
+        </div> 
+      
+  
+
+    
+<script>
+
+
+var mymap = L.map('map').setView([{{ shop.lat }} , {{ shop.lon }}], 13);
+
+
+
+
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    maxZoom: 17,
+    id: 'chaseareid.0ki8i372',
+    accessToken: 'pk.eyJ1IjoiY2hhc2VhcmVpZCIsImEiOiJjaXFoM29jcTgwNGJ2ZnRuZW1wOGFlNmI3In0.JkMh-sFZtAJOyv6Jd69UKg'
+}).addTo(mymap);
+
+var marker = L.marker([{{ shop.lat }}, {{ shop.lon }}]).addTo(mymap);
+marker.bindPopup("<b>{{ shop.brand }} </b><br> {{ shop.address }}<br> {{ shop.city }}, {{ shop.state }} ");
+
+
+
+
+
+
+
+
+    </script>
+ 
+    
+    
+    
+{% endblock %}

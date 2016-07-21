@@ -1,0 +1,47 @@
+{% extends "header.html" %}
+
+{% block title %} Shops Near You {% endblock %}
+
+{% block body %}
+
+
+<style>
+
+    #map {
+        width:auto;
+        height:200px;
+    }
+    
+    
+    
+</style>
+
+
+
+
+
+
+<div style="margin-top:70px;" class="container">
+
+     {% with messages = get_flashed_messages() %}
+{% if messages %}
+          {% for message in messages %}
+    
+    <div class="alert alert-info">{{ message }} 
+<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          
+         
+    </div>
+   {% endfor %}
+{% endif %}
+    {% endwith %}
+    <div class="alert alert-danger">{{ error }} </div>
+    </div>
+
+    
+
+ 
+
+    
+    
+{% endblock %}

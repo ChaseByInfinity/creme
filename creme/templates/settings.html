@@ -1,0 +1,61 @@
+{% extends "header.html" %}
+
+{% block title %} Edit Settings {% endblock %}
+
+{% block body %}
+
+<style>
+    p {
+        width:50%;
+    }
+
+</style>
+
+<div style="margin-top:70px;" class="container">
+
+     {% with messages = get_flashed_messages() %}
+{% if messages %}
+          {% for message in messages %}
+    
+    <div class="alert alert-info">{{ message }} 
+<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          
+          </div>
+          {% endfor %}
+{% endif %}
+{% endwith %}
+
+   
+    
+    <div class="panel panel-default">
+  <div class="panel-body">
+        
+        <h4>Edit Your Settings</h4>
+        
+        <form method="POST" action="/settings/">
+      
+      <p><input type="text" name="username" class="form-control" value="{{ user.username }}"></p>
+      <p><input type="text" name="email" class="form-control" value="{{ user.email }}"></p>
+        
+      
+     <p><input type="submit" class="btn btn-primary" value="Update"></p>
+      
+      
+      </form>
+        {% if user.biz_owner == 0 %}
+      <p>Do you own your own coffee shop and wish to have it listed on Creme?</p>
+      <p><a href="/make/owner"><btn class="btn btn-primary">Yes, I'm a coffee shop owner</btn></a></p>
+      {% else %}
+      <p>Did you mistakenly designate yourself as a shop owner? Let's fix that.</p>
+      <p><a href="/remove/owner"><btn class="btn btn-danger">Remove designation</btn></a></p>
+       {% endif %}
+        
+        </div>
+</div>
+
+
+    
+</div>
+
+
+{% endblock %}

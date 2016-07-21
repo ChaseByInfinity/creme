@@ -1,0 +1,70 @@
+{% extends "header.html" %}
+
+{% block title %} Add Item {% endblock %}
+
+{% block body %}
+
+ 
+
+
+<style>
+    .wrap {
+        margin-top:70px;
+    }
+    
+
+</style>
+
+<div class="wrap">
+     {% with messages = get_flashed_messages() %}
+{% if messages %}
+          {% for message in messages %}
+    
+    <div class="alert alert-info">{{ message }} 
+<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          
+          </div>
+
+
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+    
+    
+    
+    <div class="panel panel-default">
+  <div class="panel-body">Hi, coffee shop owner! Add an item to your shop. Please be as specific as possible.</div>
+        
+        <div class="container">
+        
+        <form method='POST' action='/shop/additem/{{ shop.id}}'>
+        <p><input type="text" name="name" class="form-control" style="width:75%" placeholder="Item Name"> </p>
+        <p><input type="text" name="size" class="form-control" style="width:75%" placeholder="Item Size"> </p>
+        <p><input type="text" name="calories" class="form-control" style="width:75%" placeholder="Calories"> </p>
+        <p><input type="text" name="protein" class="form-control" style="width:75%" placeholder="Protein"> </p>
+        <p><input type="text" name="fat" class="form-control" style="width:75%" placeholder="Fat"> </p>
+            <P><input type="submit" class="btn btn-primary" value="Add!"></P>
+            </form>
+        
+        
+        
+        
+        </div>
+</div>
+
+</div>    
+            
+             
+
+
+            
+            
+   
+      
+  
+
+
+    
+    
+{% endblock %}

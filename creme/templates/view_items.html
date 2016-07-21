@@ -1,0 +1,76 @@
+{% extends "header.html" %}
+
+{% block title %} Items {% endblock %}
+
+{% block body %}
+
+ 
+
+
+<style>
+    .wrap {
+        margin-top:70px;
+    }
+    
+
+</style>
+
+<div class="wrap">
+     {% with messages = get_flashed_messages() %}
+{% if messages %}
+          {% for message in messages %}
+    
+    <div class="alert alert-info">{{ message }} 
+<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          
+          </div>
+
+
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+    
+    
+    
+    <div class="panel panel-default">
+  <div class="panel-body">Hi, coffee shop owner! These are all the shops you own/manage. From here you can delete them if the listing is erroneous or edit them.</div>
+        
+        <div class="container">
+        
+     {% if not items %}
+<div class="alert alert-info">You haven't added any beverage items</div>
+            {% else %}
+            
+            <ul class="list-group">
+                {% for item in items %}
+                
+  <li class="list-group-item" style="width:90%">
+      
+      
+      {{ item.name }}
+   
+                <a href="/item/edit/{{ item.id }}" style="text-decoration:none"><span class="label label-primary label-pill pull-xs-right">Edit Item</span></a>
+      <a href="/item/delete/{{item.id}}" style="text-decoration:none"><span class="label label-danger label-pill pull-xs-right">Delete Item</span></a>
+                </li>
+{% endfor %}
+</ul>
+   {% endif %}
+        </div>
+</div>
+
+</div>    
+            
+             
+
+
+            
+            
+   
+      
+  
+
+
+    
+    
+{% endblock %}

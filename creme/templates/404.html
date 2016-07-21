@@ -1,0 +1,51 @@
+{% extends "header.html" %}
+
+{% block title %} Page Not Found {% endblock %}
+
+{% block body %}
+
+ 
+
+
+<style>
+    .wrap {
+        margin-top:70px;
+    }
+    
+
+</style>
+
+<div class="wrap">
+     {% with messages = get_flashed_messages() %}
+{% if messages %}
+          {% for message in messages %}
+    
+    <div class="alert alert-info">{{ message }} 
+<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          
+          </div>
+
+
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+    
+   <div class="alert alert-danger">Oops, page Not Found! :( Go back <a href="{{ url_for('index') }}">home</a></div> 
+    
+  
+</div>    
+            
+             
+
+
+            
+            
+   
+      
+  
+
+
+    
+    
+{% endblock %}

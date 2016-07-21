@@ -1,0 +1,78 @@
+{% extends "header.html" %}
+
+{% block title %} Manage Mine {% endblock %}
+
+{% block body %}
+
+ 
+
+
+<style>
+    .wrap {
+        margin-top:70px;
+    }
+    
+
+</style>
+
+<div class="wrap">
+     {% with messages = get_flashed_messages() %}
+{% if messages %}
+          {% for message in messages %}
+    
+    <div class="alert alert-info">{{ message }} 
+<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          
+          </div>
+
+
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+    
+    
+    
+    <div class="panel panel-default">
+  <div class="panel-body">Hi, coffee shop owner! These are all the shops you own/manage. From here you can delete them if the listing is erroneous or edit them.</div>
+        
+        <div class="container">
+        
+     {% if not shopsOwned %}
+<div class="alert alert-info">You don't own any shops</div>
+            {% else %}
+            
+            <ul class="list-group">
+                {% for shop in shopsOwned %}
+                
+  <li class="list-group-item" style="width:90%">
+      
+      
+      {{ shop.brand }}
+      <a href="/shop/additem/{{ shop.id }}" style="text-decoration:none"><span class="label label-primary label-pill pull-xs-right">Add Item</span></a>
+      <a href="/shop/items/{{ shop.id }}" style="text-decoration:none"><span class="label label-primary label-pill pull-xs-right">Items</span></a>
+      <a href="/shop/edit/{{ shop.id }}" style="text-decoration:none"><span class="label label-primary label-pill pull-xs-right">Edit</span></a>
+      <a href="/shop/delete/{{ shop.id }}" style="text-decoration:none"><span class="label label-danger label-pill pull-xs-right">Delete</span></a>
+                
+                </li>
+{% endfor %}
+</ul>
+   {% endif %}
+        </div>
+</div>
+
+</div>    
+            
+             
+
+
+            
+            
+   
+      
+  
+
+
+    
+    
+{% endblock %}
